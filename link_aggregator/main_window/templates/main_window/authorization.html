@@ -1,0 +1,14 @@
+{% extends 'main_window/layout.html' %}
+
+
+
+{% block content %}
+    <p>Авторизация</p>
+    <form action="{% url 'registrations' %}">
+        <input class="login" type="text" placeholder="Login">
+        <input class="password" type="password" placeholder="Password">
+        <button class="enter" type="submit" name="enter" value="enter">Войти</button>
+        <p>или</p>
+        <button class="register" type="submit" name="register" value="Register">Регистрация</button>
+    </form>
+{% endblock %}
