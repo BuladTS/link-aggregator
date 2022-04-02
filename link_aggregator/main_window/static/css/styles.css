@@ -54,26 +54,25 @@ input[type=text] {
 
 .container {
   width: 100%;
-  background: blue;
   position: absolute;
   left: 0;
   top: 72px;
-  height: 90vh;
+  height: 89.83vh;
   pointer-events: none;
 }
 
-.row_left {
+.column_left {
     position:absolute;
     left: 0;
     width: 254px;
-    height: 90%;
+    height: 95.09%;
 }
 
-.up_left {
+.header_left_column {
     left: 0;
     width: 254px;
-    height: 10%;
-    background: red;
+    height: 5%;
+    background: white;
     text-align: center;
     font-size: 24px;
     vertical-align: middle;
@@ -87,11 +86,11 @@ p {
 .base__files {
     width 254px;
     height: 100%;
-    background: yellow;
+    background: #2A2F36;
     left: 0;
 }
 
-.row_right {
+.column_right {
     position: absolute;
     right: 0;
     width: 376px;
@@ -99,7 +98,7 @@ p {
     background: black;
 }
 
-.up_right {
+.header_right_column {
     right: 0;
     width: 376px;
     height: 63px;
@@ -107,7 +106,7 @@ p {
 }
 
 button {
-    background: pink;
+    background: #C4C4C4;
     height: 39px;
     margin-top: 12px;
     margin-left: 34px;
@@ -140,7 +139,7 @@ button {
     left: 254px;
     right:376px;
     height: 100%;
-    background: purple;
+    background: white;
 }
 
 thead {
