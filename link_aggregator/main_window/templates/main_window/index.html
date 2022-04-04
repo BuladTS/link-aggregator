@@ -31,7 +31,10 @@
                           <p>Ваши файлы</p>
                   </div>
                   <div class="base__files">
-                      <p>РРРРРРРРРРРР</p>
+                      <p>{{ Угар }}</p>
+                      {% for el in Топ %}
+                        <p>{{ el }}</p>
+                      {% endfor %}
                   </div>
               </div>
               <div class="column_right">
@@ -48,32 +51,28 @@
                   </div>
               </div>
               <div class="middle">
-                  <table>
-                      <thead>
-                        <tr>
-                            <th class="title">Название</th>
-                            <th class="type">Тип</th>
-                            <th>Дата</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                            <td>Отчет</td>
-                            <td>docx</td>
-                            <td>20.03.2020</td>
-                        </tr>
-                        <tr>
-                            <td>Отчет</td>
-                            <td>docx</td>
-                            <td>20.03.2020</td>
-                        </tr>
-                        <tr>
-                            <td>Отчет</td>
-                            <td>docx</td>
-                            <td>20.03.2020</td>
-                        </tr>
-                      </tbody>
-                  </table>
+                  {% if user_data %}
+                      <table>
+                          <thead>
+                            <tr>
+                                <th class="title">Название</th>
+                                <th class="type">Тип</th>
+                                <th>Дата</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for el in user_data %}
+                            <tr>
+                                <td>{{ el.name }}</td>
+                                <td>{{ el.file_type }}</td>
+                                <td>{{ el.data }}</td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                      </table>
+                  {% else %}
+                    <p class="user_have_not_file">Здесь пока ничего</p>
+                  {% endif %}
               </div>
           </div>
       </main>

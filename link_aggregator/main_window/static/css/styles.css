@@ -84,6 +84,7 @@ p {
 }
 
 .base__files {
+    color: #fff;
     width 254px;
     height: 100%;
     background: #2A2F36;
@@ -140,6 +141,8 @@ button {
     right:376px;
     height: 100%;
     background: white;
+    text-align: center;
+    vertical-align: middle;
 }
 
 thead {
@@ -165,4 +168,9 @@ table tbody tr:nth-child(even){
 }
 .type {
     width: 100px;
+}
+
+.user_have_not_file {
+    text-align: center;
+    vertical-align: middle;
 }

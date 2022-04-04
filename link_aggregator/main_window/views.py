@@ -1,12 +1,40 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .models import User_data
+from .forms import UsersForm
 
 
 def index(request):
-    return render(request, 'main_window/index.html')
+    user_data = User_data.objects.all()
+    data = {
+        'Угар': 'Необьятный океан yyyyyy',
+        'Топ': ['Bleach', 'Seven deadly sing', 'Kaguya sama'],
+        'Kirito': {
+            'car': 'Asuna',
+            'hobby': 'kill mobs',
+            'age': 18
+        },
+        'user_data': user_data,
+    }
+
+    return render(request, 'main_window/index.html', data)
 
 
 def registrations(request):
-    return render(request, 'main_window/registrations.html')
+    errors = ''
+    if request.method == 'GET':
+        form = UsersForm(request.GET)
+        if form.is_valid():
+            form.save()
+            return redirect('authorization')
+        else:
+            errors = 'Заполните поля'
+
+    form = UsersForm()
+    data = {
+        'form': form,
+        'errors': errors
+    }
+    return render(request, 'main_window/registrations.html', data)
 
 
 def authorization(request):
