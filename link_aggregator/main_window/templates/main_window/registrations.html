@@ -4,10 +4,11 @@
 
 {% block content %}
     <p>Регистрация</p>
-    <form action="{% url 'home' %}">
-        <input class="login" type="text" placeholder="Login">
-        <input class="password" type="password" placeholder="Password">
-        <input class="repeat_password" type="password" placeholder="Repeat password">
+    <form method="get">
+        {% csrf_token %}
+        {{ form.login }}
+        {{ form.password }}
+        {{ form.repeat_password }}
         <button class="register" type="submit" name="register" value="Register">Регистрация</button>
     </form>
 {% endblock %}
