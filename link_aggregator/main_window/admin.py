@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import User_data, Users
+from .models import UserData, Users, Links
 
-admin.site.register(User_data)
+admin.site.register(UserData)
 admin.site.register(Users)
+admin.site.register(Links)

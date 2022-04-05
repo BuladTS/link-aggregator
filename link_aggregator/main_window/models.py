@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class User_data(models.Model):
+class UserData(models.Model):
     name = models.CharField('Название', max_length=50)
     file_type = models.CharField('Тип', max_length=50)
     data = models.DateTimeField('Дата добавления')
@@ -25,3 +25,16 @@ class Users(models.Model):
     class Meta:
         verbose_name = 'Логин и пароль'
         verbose_name_plural = 'Логины и пароли'
+
+
+class Links(models.Model):
+    link = models.CharField('Ссылка', max_length=1000)
+    description = models.TextField('Описание')
+    tags = models.CharField('Теги', max_length=250)
+
+    def __str__(self):
+        return self.tags
+
+    class Meta:
+        verbose_name = 'Ссылка'
+        verbose_name_plural = 'Ссылки'

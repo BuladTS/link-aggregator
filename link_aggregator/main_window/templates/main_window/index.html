@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
   <header class="header">
@@ -15,9 +16,17 @@
                   <input type="text" placeholder="Поиск">
               </form>
           </div>
-          <div class="options">
-              <img class="user_step" src="{% static 'img/Plus.svg' %}" alt="">
+          <div class="dropdown">
+              <button class="drop_btn"><img class="user_step" src="{% static 'img/Plus.svg' %}" alt=""></button>
+              <div class="dropdown-content">
+                  <button class="add_btn">Добавить ссылку</button>
+                  <a href="#popup">Ссылка 2</a>
+                  <a href="#">Ссылка 3</a>
+              </div>
           </div>
+
+
+
           <div class="exit_text">
               <a class="exit" href="{% url 'authorization' %}" >Выход</a>
           </div>
@@ -77,5 +86,19 @@
           </div>
       </main>
   </div>
+    <div id="popup" class="popup">
+        <div class="popup_body">
+            <div class="popup_content">
+                <a href="#" class="popup_close">X</a>
+                <form method="post" action="#">
+                    {% csrf_token %}
+                    {{ form.link }}<br>
+                    {{ form.description }}<br>
+                    {{ form.tags }}<br>
+                    <button class="link_add" type="submit" name="link_add" value="Link_add">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

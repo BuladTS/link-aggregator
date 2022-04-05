@@ -1,5 +1,5 @@
-from .models import Users
-from django.forms import ModelForm, TextInput, PasswordInput
+from .models import Users, Links
+from django.forms import ModelForm, TextInput, PasswordInput, Textarea
 
 
 class UsersForm(ModelForm):
@@ -20,4 +20,25 @@ class UsersForm(ModelForm):
                 'class': 'repeat_password',
                 'placeholder': 'Repeat password'
             })
+        }
+
+
+class LinksForm(ModelForm):
+    class Meta:
+        model = Links
+        fields = ['link', 'description', 'tags']
+
+        widgets = {
+            "link": TextInput(attrs={
+                'class': 'link',
+                'placeholder': 'Link'
+            }),
+            "description": Textarea(attrs={
+                'class': 'description',
+                'placeholder': 'Description'
+            }),
+            "tags": TextInput(attrs={
+                'class': 'tags',
+                'placeholder': ' Tags'
+            }),
         }

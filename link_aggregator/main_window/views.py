@@ -1,10 +1,20 @@
 from django.shortcuts import render, redirect
-from .models import User_data
-from .forms import UsersForm
+from .models import UserData
+from .forms import UsersForm, LinksForm
 
 
 def index(request):
-    user_data = User_data.objects.all()
+    errors = ''
+    if request.method == 'POST':
+        form = LinksForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+        else:
+            errors = 'Неверно'
+
+    form = LinksForm
+    user_data = UserData.objects.all()
     data = {
         'Угар': 'Необьятный океан yyyyyy',
         'Топ': ['Bleach', 'Seven deadly sing', 'Kaguya sama'],
@@ -14,6 +24,8 @@ def index(request):
             'age': 18
         },
         'user_data': user_data,
+        'form': form,
+        'errors': errors
     }
 
     return render(request, 'main_window/index.html', data)
