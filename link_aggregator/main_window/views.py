@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import User_data
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import auth
 from .forms import UsersForm, LinksForm
 
 
