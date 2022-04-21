@@ -25,6 +25,7 @@ def index(request):
             'age': 18
         },
         'user_data': user_data,
+        'user_links': user_links,
         'form': form,
         'errors': errors
     }
