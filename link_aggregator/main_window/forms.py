@@ -30,15 +30,15 @@ class LinksForm(ModelForm):
 
         widgets = {
             "link": TextInput(attrs={
-                'class': 'link',
+                'class': 'form-control',
                 'placeholder': 'Link'
             }),
             "description": Textarea(attrs={
-                'class': 'description',
+                'class': 'description form-control',
                 'placeholder': 'Description'
             }),
             "tags": TextInput(attrs={
-                'class': 'tags',
+                'class': 'tags form-control',
                 'placeholder': ' Tags'
             }),
         }

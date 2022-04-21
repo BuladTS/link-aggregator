@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import User_data
+from .models import User_data, Links
 from .forms import UsersForm, LinksForm
 
 
@@ -15,6 +15,7 @@ def index(request):
 
     form = LinksForm
     user_data = User_data.objects.all()
+    user_links = Links.objects.all()
     data = {
         'Угар': 'Необьятный океан yyyyyy',
         'Топ': ['Bleach', 'Seven deadly sing', 'Kaguya sama'],
