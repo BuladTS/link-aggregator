@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class UserData(models.Model):
+class User_data(models.Model):
     name = models.CharField('Название', max_length=50)
     file_type = models.CharField('Тип', max_length=50)
     data = models.DateTimeField('Дата добавления')

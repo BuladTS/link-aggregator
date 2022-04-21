@@ -5,13 +5,15 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--    <link rel="stylesheet" href="{% static 'libs/bootstrap.css' %}">-->
+    <link rel="stylesheet" href="{% static 'css/modals.css' %}">
+    <script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
   <header class="header">
       <nav class="menu">
           <img class="lines" src="{% static 'img/Vector.svg' %}" alt="">
-          <div class="search">
+          <div class="search" id="search">
               <form action="#">
                   <input type="text" placeholder="Поиск">
               </form>
@@ -19,14 +21,11 @@
           <div class="dropdown">
               <button class="drop_btn"><img class="user_step" src="{% static 'img/Plus.svg' %}" alt=""></button>
               <div class="dropdown-content">
-                  <button class="add_btn">Добавить ссылку</button>
+                  <button class="add_btn" id="add_btn" data-modal-button="modal-1">Добавить ссылку</button>
                   <a href="#popup">Ссылка 2</a>
                   <a href="#">Ссылка 3</a>
               </div>
           </div>
-
-
-
           <div class="exit_text">
               <a class="exit" href="{% url 'authorization' %}" >Выход</a>
           </div>
@@ -51,6 +50,11 @@
                       <button class="content">Содержание</button>
                       <button class="tags">Теги</button>
                   </div>
+                  <div class="window-container">
+                      {% for el in user_links %}
+                        <p class="description hidden" id="link-{{ el.id }}" data-content>{{ el.description }}</p>
+                      {% endfor %}
+                  </div>
                   <div class="footer">
                       <div class="search">
                           <form action="#">
@@ -71,10 +75,17 @@
                           </thead>
                           <tbody>
                             {% for el in user_data %}
-                            <tr>
+                            <tr data-links_1>
                                 <td>{{ el.name }}</td>
-                                <td>{{ el.file_type }}</td>
+                                <td>.{{ el.file_type }}</td>
                                 <td>{{ el.data }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% for el in user_links %}
+                            <tr data-links data-link="link-{{ el.id }}">
+                                <td>{{ el.link }}</td>
+                                <td>Ссылка</td>
+                                <td>Дата</td>
                             </tr>
                             {% endfor %}
                           </tbody>
@@ -86,19 +97,32 @@
           </div>
       </main>
   </div>
-    <div id="popup" class="popup">
-        <div class="popup_body">
-            <div class="popup_content">
-                <a href="#" class="popup_close">X</a>
-                <form method="post" action="#">
+  <div id="modal-1" data-modal class="fade-block hidden">
+      <div class="modal-window">
+          <div class="card">
+              <div class="card-header">
+                  Добавить ссылку
+              </div>
+              <div class="card-body">
+                  <form method="post" action="#">
                     {% csrf_token %}
                     {{ form.link }}<br>
                     {{ form.description }}<br>
                     {{ form.tags }}<br>
-                    <button class="link_add" type="submit" name="link_add" value="Link_add">Save</button>
+                    <button class="link_add btn btn-dark" type="submit" name="link_add" value="Link_add">Save</button>
                 </form>
-            </div>
-        </div>
-    </div>
+                  <button
+                          data-modal-close
+                          type="button"
+                          class="btn btn-dark"
+                        >
+                      Закрыть окно
+                  </button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <script type="text/javascript" src="{% static 'js/table_links.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/popup_add_link.js' %}"></script>
 </body>
 </html>
