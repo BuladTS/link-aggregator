@@ -47,13 +47,18 @@
               </div>
               <div class="column_right">
                   <div class="header_right_column">
-                      <button class="content">Содержание</button>
-                      <button class="tags">Теги</button>
+                      <button class="content pressed_button" data-pressed-button>Содержание</button>
+                      <button class="tags" data-pressed-button>Теги</button>
                   </div>
                   <div class="window-container">
-                      {% for el in user_links %}
-                        <p class="description hidden" id="link-{{ el.id }}" data-content>{{ el.description }}</p>
-                      {% endfor %}
+                      <div class="window-content">
+                          {% for el in user_links %}
+                          <p class="description hidden" id="description-{{ el.id }}" data-tag="tag-{{ el.id }}" data-content-description >{{ el.description }}</p>
+                          {% endfor %}
+                          {% for el in user_links %}
+                          <p class="tag hidden" id="tag-{{ el.id }}" data-description="description-{{ el.id }}" data-content-tag >{{ el.tags }}</p>
+                          {% endfor %}
+                      </div>
                   </div>
                   <div class="footer">
                       <div class="search">
@@ -82,7 +87,7 @@
                             </tr>
                             {% endfor %}
                             {% for el in user_links %}
-                            <tr data-links data-link="link-{{ el.id }}">
+                            <tr data-links data-link="{{ el.id }}">
                                 <td>{{ el.link }}</td>
                                 <td>Ссылка</td>
                                 <td>Дата</td>
