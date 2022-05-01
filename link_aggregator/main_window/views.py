@@ -17,13 +17,6 @@ def index(request):
     user_data = User_data.objects.all()
     user_links = Links.objects.all()
     data = {
-        'Угар': 'Необьятный океан yyyyyy',
-        'Топ': ['Bleach', 'Seven deadly sing', 'Kaguya sama'],
-        'Kirito': {
-            'car': 'Asuna',
-            'hobby': 'kill mobs',
-            'age': 18
-        },
         'user_data': user_data,
         'user_links': user_links,
         'form': form,

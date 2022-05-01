@@ -1,0 +1,17 @@
+.drop-flag {
+     writing-mode: vertical-rl;
+}
+
+ul {
+     list-style-type: none;
+}
+
+a {
+     text-decoration: none;
+     color: #fff;
+     padding-left: 13px;
+}
+
+li {
+     cursor: pointer;
+}
