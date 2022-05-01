@@ -23,13 +23,13 @@ class Profile(models.Model):
         verbose_name_plural = "Профиля"
 
 
-"""@receiver(post_save, sender=User)
+@receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
-    Создание профиля пользователя при регистрации
+    """Создание профиля пользователя при регистрации"""
     if created:
         Profile.objects.create(user=instance)
 
 
 @receiver
 def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()"""
+    instance.profile.save()

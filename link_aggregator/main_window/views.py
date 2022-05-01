@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import User_data, Links
-from .forms import UsersForm, LinksForm
+from .forms import LinksForm
+from django.http import HttpResponse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import UsersRegisterForm, UserLoginForm
+from django.contrib.auth import login, logout
 
 
 def index(request):
@@ -15,7 +19,7 @@ def index(request):
 
     form = LinksForm
     user_data = User_data.objects.all()
-    user_links = Links.objects.all()
+    user_links = Links.objects.order_by('-created_at')
     data = {
         'Угар': 'Необьятный океан yyyyyy',
         'Топ': ['Bleach', 'Seven deadly sing', 'Kaguya sama'],
@@ -36,14 +40,14 @@ def index(request):
 def registrations(request):
     errors = ''
     if request.method == 'GET':
-        form = UsersForm(request.GET)
+        form = UsersRegisterForm(request.GET)
         if form.is_valid():
             form.save()
             return redirect('authorization')
         else:
             errors = 'Заполните поля'
 
-    form = UsersForm()
+    form = UsersRegisterForm()
     data = {
         'form': form,
         'errors': errors
@@ -52,4 +56,17 @@ def registrations(request):
 
 
 def authorization(request):
-    return render(request, 'main_window/authorization.html')
+    if request.method == 'GET':
+        form = UserLoginForm(data=request.GET)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
+
+    form = UserLoginForm()
+    return render(request, 'main_window/authorization.html', {"form": form})
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('authorization')

@@ -15,7 +15,7 @@ class User_data(models.Model):
 
 
 class Users(models.Model):
-    login = models.CharField('Логин', max_length=20)
+    login = models.CharField('username', max_length=20)
     password = models.CharField('Пароль', max_length=20)
     repeat_password = models.CharField('Повтор пароля', max_length=20)
 
@@ -31,10 +31,14 @@ class Links(models.Model):
     link = models.CharField('Ссылка', max_length=1000)
     description = models.TextField('Описание')
     tags = models.CharField('Теги', max_length=250)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    updated_at = models.DateTimeField(auto_now=True)
+    is_published = models.BooleanField(default=True)
 
     def __str__(self):
         return self.tags
 
     class Meta:
-        verbose_name = 'Ссылка'
+        verbose_name = 'Ссылку'
         verbose_name_plural = 'Ссылки'
+        ordering = ['-created_at']
