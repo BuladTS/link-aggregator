@@ -82,7 +82,7 @@ input[type=text] {
   z-index: 1;
 }
 
-.dropdown-content a {
+.dropdown-content button {
   float: none;
   color: black;
   padding: 12px 16px;
@@ -91,7 +91,7 @@ input[type=text] {
   text-align: left;
 }
 
-.dropdown-content a:hover {
+.dropdown-content button:hover {
   background-color: #ddd;
 }
 
@@ -158,6 +158,27 @@ p {
     left: 0;
 }
 
+.block_with_content {
+    height: 100%;
+    position: relative;
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+ul {
+    margin: 0;
+    padding-left: 0;
+}
+
+li {
+    padding-left: 10px;
+}
+
 .column_right {
     position: absolute;
     right: 0;
@@ -200,7 +221,7 @@ p {
 }
 
 .pressed_button {
-    background: #6610f2;
+    background: #78858B;
 }
 
 .content {

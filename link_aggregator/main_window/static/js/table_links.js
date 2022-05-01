@@ -58,5 +58,3 @@ tableLinks.forEach(function (item) {
 
     })
 })
-console.log(allTags);
-console.log(allDescriptions);
