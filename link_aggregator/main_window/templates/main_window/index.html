@@ -20,14 +20,23 @@
               </form>
           </div>
           <div class="dropdown">
+              {% if request.user.is_authenticated %}
               <button class="drop_btn"><img class="user_step" src="{% static 'img/Plus.svg' %}" alt=""></button>
               <div class="dropdown-content">
                   <button class="add_btn" id="add_link_btn" data-modal-button="modal-1">Добавить ссылку</button>
                   <button class="add_btn" id="add_file_btn" data-modal-button="modal-2">Добавить файл</button>
+                  <button class="add_btn" id="add_btn" data-modal-button="modal-1">Добавить ссылку</button>
+                  <a href="#popup">Ссылка 2</a>
+                  <a href="#">Ссылка 3</a>
+                  {% endif %}
               </div>
           </div>
           <div class="exit_text">
-              <a class="exit" href="{% url 'authorization' %}" >Выход</a>
+              {% if request.user.is_authenticated %}
+              Добро пожаловать, {{ user.username }} | <a href="{%url 'logout'%}">Выход</a>
+              {% else %}
+              <a class="exit" href="{% url 'authorization' %}" >Вход</a> | <a href="{% url 'registrations' %}">Регистрация</a>
+              {% endif %}
           </div>
       </nav>
   </header>
@@ -115,7 +124,7 @@
                             <tr data-links data-link="{{ el.id }}">
                                 <td>{{ el.link }}</td>
                                 <td>Ссылка</td>
-                                <td>Дата</td>
+                                <td>{{el.created_at}}</td>
                             </tr>
                             {% endfor %}
                           </tbody>

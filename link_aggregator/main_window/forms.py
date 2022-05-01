@@ -1,24 +1,41 @@
 from .models import Users, Links
 from django.forms import ModelForm, TextInput, PasswordInput, Textarea
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
 
 
-class UsersForm(ModelForm):
+class UserLoginForm(AuthenticationForm):
+    fields = ['username', 'password1']
+
+    widgets = {
+        "Имя пользователя": TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'username'
+        }),
+        "password1": PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Password1'
+        })
+    }
+
+
+class UsersRegisterForm(UserCreationForm):
     class Meta:
-        model = Users
-        fields = ['login', 'password', 'repeat_password']
+        model = User
+        fields = ['username', 'password1', 'password2']
 
         widgets = {
-            "login": TextInput(attrs={
-                'class': 'login',
-                'placeholder': 'Login'
+            "Имя пользователя": TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'username'
             }),
-            "password": PasswordInput(attrs={
-                'class': 'password',
-                'placeholder': 'Password'
+            "password1": PasswordInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Password1'
             }),
-            "repeat_password": PasswordInput(attrs={
-                'class': 'repeat_password',
-                'placeholder': 'Repeat password'
+            "password2": PasswordInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'password2'
             })
         }
 

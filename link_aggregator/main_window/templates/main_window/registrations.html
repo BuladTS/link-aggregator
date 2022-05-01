@@ -6,9 +6,7 @@
     <p>Регистрация</p>
     <form method="get">
         {% csrf_token %}
-        {{ form.login }}
-        {{ form.password }}
-        {{ form.repeat_password }}
+        {{ form.as_p }}
         <button class="register" type="submit" name="register" value="Register">Регистрация</button>
     </form>
 {% endblock %}
