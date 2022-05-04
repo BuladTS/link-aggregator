@@ -1,3 +1,4 @@
+from Tools.scripts.ptags import tags
 from django.db import models
 
 
@@ -42,3 +43,17 @@ class Links(models.Model):
         verbose_name = 'Ссылку'
         verbose_name_plural = 'Ссылки'
         ordering = ['-created_at']
+
+
+class UserFiles(models.Model):
+    file = models.FileField('Файл', upload_to='uploads/')
+    description = models.TextField('Описание')
+    tags = models.CharField('Теги', max_length=250)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
+
+    def __str__(self):
+        return self.tags
+
+    class Meta:
+        verbose_name = 'Файл'
+        verbose_name_plural = 'Файлы'

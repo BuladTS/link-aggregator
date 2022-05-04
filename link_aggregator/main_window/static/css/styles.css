@@ -109,7 +109,7 @@ input[type=text] {
 }
 
 .exit_text {
-    padding: 25px;
+    padding: 13px;
     position: absolute;
     right: 0;
     font-size: 20px;
@@ -363,4 +363,12 @@ table tbody tr:nth-child(even){
 select.form-control:focus::-ms-value {
   color: #495057;
   background-color: #fff;
+}
+
+.greeting {
+    padding: 13px;
+    color: #fff;
+    position: absolute;
+    right: 75px;
+    width: 260px;
 }

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User_data, Users, Links
+from .models import User_data, Users, Links, UserFiles
 
 
 class NewLinks(admin.ModelAdmin):
@@ -10,3 +10,4 @@ class NewLinks(admin.ModelAdmin):
 
 admin.site.register(User_data)
 admin.site.register(Links, NewLinks)
+admin.site.register(UserFiles)

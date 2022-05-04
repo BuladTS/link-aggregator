@@ -4,7 +4,7 @@ body {
     justify-content: center;
 }
 
-span {
+.title {
     position: absolute;
     width: 38px;
     height: 638px;
@@ -48,7 +48,6 @@ input[type=text] {
     color: #fff;
 }
 
-:: placeholder {color: red;}
 
 .login {
     width: 611px;
@@ -119,4 +118,23 @@ p {
 
 
     color: #fff;
+}
+
+.helptext {
+    visibility: hidden;
+}
+
+ul {
+    display: none;
+}
+label {
+    display: none;
+}
+.exit {
+    position: absolute;
+    text-decoration: none;
+    color: #fff;
+    font-size: 30px;
+    bottom: 160px;
+    left: 250px;
 }

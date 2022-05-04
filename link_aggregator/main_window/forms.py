@@ -1,5 +1,9 @@
-from .models import Users, Links
-from django.forms import ModelForm, TextInput, PasswordInput, Textarea
+from pyexpat import model
+
+from scipy.optimize._tstutils import description
+
+from .models import Users, Links, UserFiles
+from django.forms import ModelForm, TextInput, PasswordInput, Textarea, FileInput
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
@@ -24,13 +28,18 @@ class UsersRegisterForm(UserCreationForm):
         model = User
         fields = ['username', 'password1', 'password2']
 
+        help_texts = {
+            'username': None,
+            'password1': None,
+            'password2': None
+        }
         widgets = {
             "Имя пользователя": TextInput(attrs={
-                'class': 'form-control',
+                'class': 'login',
                 'placeholder': 'username'
             }),
             "password1": PasswordInput(attrs={
-                'class': 'form-control',
+                'class': 'login',
                 'placeholder': 'Password1'
             }),
             "password2": PasswordInput(attrs={
@@ -58,4 +67,26 @@ class LinksForm(ModelForm):
                 'class': 'tags form-control',
                 'placeholder': ' Tags'
             }),
+        }
+
+
+class UserFilesForm(ModelForm):
+    class Meta:
+        model = UserFiles
+        fields = ['file', 'description', 'tags']
+
+        widgets = {
+            "file": FileInput(attrs={
+                'class': 'form-control',
+                'id': 'customFileLang',
+                'type': 'file'
+            }),
+            "description": Textarea(attrs={
+                'class': 'description form-control',
+                'placeholder': 'Description'
+            }),
+            "tags": TextInput(attrs={
+                'class': 'tags form-control',
+                'placeholder': 'Tags'
+            })
         }
