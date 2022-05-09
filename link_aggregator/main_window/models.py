@@ -32,7 +32,7 @@ class Links(models.Model):
     link = models.CharField('Ссылка', max_length=1000)
     description = models.TextField('Описание')
     tags = models.CharField('Теги', max_length=250)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
     updated_at = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=True)
 
@@ -57,3 +57,4 @@ class UserFiles(models.Model):
     class Meta:
         verbose_name = 'Файл'
         verbose_name_plural = 'Файлы'
+        ordering = ['-created_at']
