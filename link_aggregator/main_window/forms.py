@@ -52,7 +52,7 @@ class UsersRegisterForm(UserCreationForm):
 class LinksForm(ModelForm):
     class Meta:
         model = Links
-        fields = ['link', 'description', 'tags']
+        fields = ['link', 'description', 'tags', 'id_crated_user']
 
         widgets = {
             "link": TextInput(attrs={
@@ -67,6 +67,11 @@ class LinksForm(ModelForm):
                 'class': 'tags form-control',
                 'placeholder': ' Tags'
             }),
+            "id_crated_user": TextInput(attrs={
+                'class': 'hidden',
+                'id': 'id_user',
+                'value': 5,
+            })
         }
 
 
