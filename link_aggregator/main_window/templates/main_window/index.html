@@ -161,12 +161,12 @@
                   Добавить ссылку
               </div>
               <div class="card-body">
-                  <form method="post" action="#" data-id-user="{{ user.id }}">
+                  <form method="post" action="#" data-id-user-link="{{ user.id }}">
                     {% csrf_token %}
                     {{ form.link }}<br>
                     {{ form.description }}<br>
                     {{ form.tags }}<br>
-                      {{ form.id_crated_user}}<br>
+                    {{ form.id_crated_user}}<br>
                     <button class="link_add btn btn-dark" type="submit" name="link_add" value="Link_add">Save</button>
                 </form>
                   {% if errors %}
@@ -190,13 +190,14 @@
                   Добавить файл
               </div>
               <div class="card-body">
-                  <form method="post" enctype="multipart/form-data">
+                  <form method="post" enctype="multipart/form-data" data-id-user-file="{{ user.id }}">
                       {% csrf_token %}
                       <div class="mb-3">
                           {{ form_file.file }}
                       </div>
                       {{ form_file.description }}<br>
                       {{ form_file.tags }}<br>
+                      {{ form_file.id_crated_user}}<br>
                       <button class="link_add btn btn-dark" type="submit">Save</button>
                   </form>
                   {% if errors %}
