@@ -48,13 +48,28 @@
                       <div class="block_with_content">
                           <ul class="folder">
                               <li>
-                                  <span id="span-1" class="" data-drop data-id="span-1"> > </span>
-                                  <span data-drop data-id="span-1">Папка 1</span>
+                                  <p class="label" data-type="all">Все данные</p>
+                              </li>
+                              <li>
+                                  <p class="label" data-type="links">Ссылки</p>
+                              </li>
+                              <li>
+                                  <p class="label" data-type="files">Файлы</p>
+                              </li>
+                              <li>
+                                  <span>
+                                      <img class="icon_drop" id="span-1" data-drop data-id="span-1" src="{% static 'img/triangle.svg' %}">
+                                      <span data-drop data-id="span-1">Папка 1</span>
+                                  </span>
+
+                              </li>
+                              <li>
+
                               </li>
                               <li>
                                   <ul class="folder hidden" data-dad="span-1">
                                       <li>
-                                          <span id="span-2" class="" data-drop data-id="span-2"> > </span>
+                                          <img class="icon_drop" id="span-2"  data-drop data-id="span-2" src="{% static 'img/triangle.svg' %}">
                                           <span data-drop data-id="span-2">Папка 2</span>
                                       </li>
                                       <li>
@@ -89,6 +104,12 @@
                           {% for el in user_links %}
                           <p class="tag hidden" id="tag-{{ el.id }}" data-description="description-{{ el.id }}" data-content-tag >{{ el.tags }}</p>
                           {% endfor %}
+                          {% for el in files %}
+                          <p class="tag hidden" id="tag_files-{{ el.id }}" data-description="description_files-{{ el.id }}" data-content-tag-files >{{ el.tags }}</p>
+                          {% endfor %}
+                          {% for el in files %}
+                          <p class="description hidden" id="description_files-{{ el.id }}" data-tag="tag_files-{{ el.id }}" data-content-description-files >{{ el.description }}</p>
+                          {% endfor %}
                       </div>
                   </div>
                   <div class="footer">
@@ -111,9 +132,9 @@
                           </thead>
                           <tbody>
                             {% for el in files%}
-                            <tr data-links_1>
+                            <tr data-files data-file="{{ el.id }}">
                                 <td>{{ el.file|cut:"uploads/" }}</td>
-                                <td>{{ el.file_type }}</td>
+                                <td class="link">{{ el.file|cut:"uploads/"|capfirst }}</td>
                                 <td>{{ el.created_at }}</td>
                             </tr>
                             {% endfor %}
@@ -140,11 +161,12 @@
                   Добавить ссылку
               </div>
               <div class="card-body">
-                  <form method="post" action="#">
+                  <form method="post" action="#" data-id-user-link="{{ user.id }}">
                     {% csrf_token %}
                     {{ form.link }}<br>
                     {{ form.description }}<br>
                     {{ form.tags }}<br>
+                    {{ form.id_crated_user}}<br>
                     <button class="link_add btn btn-dark" type="submit" name="link_add" value="Link_add">Save</button>
                 </form>
                   {% if errors %}
@@ -168,13 +190,14 @@
                   Добавить файл
               </div>
               <div class="card-body">
-                  <form method="post" enctype="multipart/form-data">
+                  <form method="post" enctype="multipart/form-data" data-id-user-file="{{ user.id }}">
                       {% csrf_token %}
                       <div class="mb-3">
                           {{ form_file.file }}
                       </div>
                       {{ form_file.description }}<br>
                       {{ form_file.tags }}<br>
+                      {{ form_file.id_crated_user}}<br>
                       <button class="link_add btn btn-dark" type="submit">Save</button>
                   </form>
                   {% if errors %}
@@ -188,5 +211,6 @@
   <script type="text/javascript" src="{% static 'js/file_dispatcher.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/table_links.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/popup_add_link.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/get_user_id.js' %}"></script>
 </body>
 </html>

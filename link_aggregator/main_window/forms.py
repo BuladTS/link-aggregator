@@ -52,7 +52,7 @@ class UsersRegisterForm(UserCreationForm):
 class LinksForm(ModelForm):
     class Meta:
         model = Links
-        fields = ['link', 'description', 'tags']
+        fields = ['link', 'description', 'tags', 'id_crated_user']
 
         widgets = {
             "link": TextInput(attrs={
@@ -67,13 +67,18 @@ class LinksForm(ModelForm):
                 'class': 'tags form-control',
                 'placeholder': ' Tags'
             }),
+            "id_crated_user": TextInput(attrs={
+                'class': 'hidden',
+                'id': 'id_user_link',
+                'value': 5,
+            })
         }
 
 
 class UserFilesForm(ModelForm):
     class Meta:
         model = UserFiles
-        fields = ['file', 'description', 'tags']
+        fields = ['file', 'description', 'tags', 'id_crated_user']
 
         widgets = {
             "file": FileInput(attrs={
@@ -88,5 +93,10 @@ class UserFilesForm(ModelForm):
             "tags": TextInput(attrs={
                 'class': 'tags form-control',
                 'placeholder': 'Tags'
+            }),
+            "id_crated_user": TextInput(attrs={
+                'class': 'hidden',
+                'id': 'id_user_file',
+                'value': 5,
             })
         }
