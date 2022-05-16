@@ -1,5 +1,13 @@
 .drop-flag {
-     writing-mode: vertical-rl;
+     transform: rotate(90deg);
+}
+
+.icon_drop {
+     padding-bottom: 1px;
+}
+
+.label {
+     padding-left: 11px;
 }
 
 ul {

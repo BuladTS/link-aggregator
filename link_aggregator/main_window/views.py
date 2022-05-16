@@ -21,17 +21,18 @@ def index(request):
     if request.method == 'POST':
         form = UserFilesForm(request.POST, request.FILES)
         if form.is_valid():
+
             form.save()
             return redirect('home')
         else:
             print(form.errors)
             errors_file = 'Ошибка при заполнении формы'
-
+    user = request.user
     form = LinksForm
     form_file = UserFilesForm
     user_data = User_data.objects.all()
-    user_links = Links.objects.order_by('-created_at')
-    files = UserFiles.objects.all()
+    user_links = Links.objects.filter(id_crated_user=user.id)
+    files = UserFiles.objects.filter(id_crated_user=user.id)
     data = {
         'user_data': user_data,
         'user_links': user_links,
