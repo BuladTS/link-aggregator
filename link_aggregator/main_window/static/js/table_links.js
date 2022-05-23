@@ -8,8 +8,15 @@ const tableFiles = document.querySelectorAll('[data-files]');
 const allDescriptionsFiles = document.querySelectorAll('[data-content-description-files]');
 const allTagsFiles = document.querySelectorAll('[data-content-tag-files]');
 
+const tableFileNames = document.querySelectorAll('[data-cut-end]')
 
-allDescriptions[0].classList.toggle('hidden');
+if (allDescriptionsFiles === null) {
+    allDescriptions[0].classList.toggle('hidden');
+} else {
+    allDescriptionsFiles[0].classList.toggle('hidden');
+}
+
+
 buttons.forEach(function (item, i) {
     item.addEventListener('click', function () {
         buttons.forEach(function (item){
@@ -110,14 +117,11 @@ tableFiles.forEach(function (item) {
 })
 
 
-
-
-
-
-
-
-
-
+tableFileNames.forEach(function (item) {
+    let string = item.textContent;
+    string = string.split('.')[0];
+    item.textContent = string;
+})
 
 
 allType.forEach(function (item) {
