@@ -21,7 +21,6 @@ def index(request):
     if request.method == 'POST':
         form = UserFilesForm(request.POST, request.FILES)
         if form.is_valid():
-
             form.save()
             return redirect('home')
         else:
@@ -44,6 +43,15 @@ def index(request):
     }
 
     return render(request, 'main_window/index.html', data)
+
+
+def delete_data(request, id_crated_user):
+    user_links = Links.objects.get(id=id_crated_user)
+    files = UserFiles.objects.get(id=id_crated_user)
+    user_links.object.delete()
+    files.object.delete()
+
+    return render(request, 'main_window/index.html')
 
 
 def registrations(request):

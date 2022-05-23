@@ -2,7 +2,7 @@ from pyexpat import model
 
 from scipy.optimize._tstutils import description
 
-from .models import Users, Links, UserFiles
+from .models import Links, UserFiles
 from django.forms import ModelForm, TextInput, PasswordInput, Textarea, FileInput
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -70,7 +70,7 @@ class LinksForm(ModelForm):
             "id_crated_user": TextInput(attrs={
                 'class': 'hidden',
                 'id': 'id_user_link',
-                'value': 5,
+                'value': 1,
             })
         }
 
@@ -97,6 +97,6 @@ class UserFilesForm(ModelForm):
             "id_crated_user": TextInput(attrs={
                 'class': 'hidden',
                 'id': 'id_user_file',
-                'value': 5,
+                'value': 1,
             })
         }
