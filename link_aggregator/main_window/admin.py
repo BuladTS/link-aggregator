@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User_data, Users, Links, UserFiles
+from .models import Links, UserFiles
 
 
 class NewLinks(admin.ModelAdmin):
@@ -8,6 +8,5 @@ class NewLinks(admin.ModelAdmin):
     search_fields = ('tags', 'description')
 
 
-admin.site.register(User_data)
 admin.site.register(Links, NewLinks)
 admin.site.register(UserFiles)

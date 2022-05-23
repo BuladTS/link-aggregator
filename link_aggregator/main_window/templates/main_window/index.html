@@ -25,12 +25,13 @@
               <div class="dropdown-content">
                   <button class="add_btn" id="add_link_btn" data-modal-button="modal-1">Добавить ссылку</button>
                   <button class="add_btn" id="add_file_btn" data-modal-button="modal-2">Добавить файл</button>
+                  <button class="add_btn" id="info" data-modal-button="modal-3">Удаление записей</button>
                   {% endif %}
               </div>
           </div>
           <div class="exit_text">
               {% if request.user.is_authenticated %}
-              <span class="greeting">Добро пожаловать, {{ user.username }} </span> <a href="{%url 'logout'%}">Выход</a>
+              <span class="greeting"> {{ user.username }} </span> <a href="{%url 'logout'%}">Выход</a>
               {% else %}
               <a class="exit" href="{% url 'authorization' %}" >Вход</a>  <a href="{% url 'registrations' %}">Регистрация</a>
               {% endif %}
@@ -121,7 +122,7 @@
                   </div>
               </div>
               <div class="middle">
-                  {% if user_links or user_data %}
+                  {% if user_links or files %}
                       <table>
                           <thead>
                             <tr>
@@ -203,6 +204,48 @@
                   {% if errors %}
                   <p>{{ errors_file }}</p>
                   {% endif %}
+                  <button class="btn btn-dark" data-modal-close type="button">Закрыть окно</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="fade-block hidden" id="modal-3" data-modal>
+      <div class="modal-window">
+          <div class="card">
+              <div class="card-header">
+              </div>
+              <div class="list-group">
+                  <button type="button" class="list-group-item list-group-item-action active" aria-current="true">
+                      Удаление записей
+                  <form method="post" enctype="multipart/form-data" data-id-user-file="{{ user.id }}">
+                      {% csrf_token %}
+                      <div class="mb-3">
+                          {% if user_links or files %}
+                          <table>
+                              <tbody>
+                              {% for el in files%}
+                              <tr data-file="{{ el.id }}">
+                                  <td>{{ el.file|cut:"uploads/" }}</td>
+                                    <td class="link">{{ el.file|cut:"uploads/"|capfirst }}</td>
+                                    <td>{{ el.created_at }}</td>
+                              </tr>
+                                {% endfor %}
+                                {% for el in user_links %}
+                                <tr data-link="{{ el.id }}">
+                                    <td>{{ el.link }}</td>
+                                    <td>Ссылка</td>
+                                    <td>{{el.created_at}}</td>
+                                </tr>
+                              {% endfor %}
+                              </tbody>
+                          </table>
+                          {% else %}
+                          <p class="user_have_not_file">Здесь пока ничего</p>
+                          {% endif %}
+                      </div>
+                      {{ form_file.id_crated_user}}<br>
+                      <button type="submit" class="btn btn-danger">Удалить запись</button>
+                  </form>
                   <button class="btn btn-dark" data-modal-close type="button">Закрыть окно</button>
               </div>
           </div>
