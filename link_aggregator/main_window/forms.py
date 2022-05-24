@@ -6,6 +6,7 @@ from .models import Links, UserFiles
 from django.forms import ModelForm, TextInput, PasswordInput, Textarea, FileInput
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django import forms
 
 
 class UserLoginForm(AuthenticationForm):
@@ -100,3 +101,8 @@ class UserFilesForm(ModelForm):
                 'value': 1,
             })
         }
+
+
+class DeleteForm(forms.Form):
+    type = forms.CharField(max_length=10,)
+    id = forms.CharField()

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import User_data, Links, UserFiles
-from .forms import LinksForm, UserFilesForm
+from .forms import LinksForm, UserFilesForm, DeleteForm
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import UsersRegisterForm, UserLoginForm
@@ -26,7 +26,22 @@ def index(request):
         else:
             print(form.errors)
             errors_file = 'Ошибка при заполнении формы'
+
+    if request.method == 'POST':
+        form = DeleteForm(request.POST)
+        if form.is_valid():
+            value_type = str(form['type'])
+            value_type = value_type[38:42]
+            value_id = str(form['id'])
+            value_id = value_id[36:len(value_id)]
+            i = 0
+            value_id_new = ''
+            while value_id[i].isdigit():
+                value_id_new += value_id[i]
+                i += 1
+            delete_data(request, value_type, int(value_id_new))
     user = request.user
+    delete_form = DeleteForm
     form = LinksForm
     form_file = UserFilesForm
     user_data = User_data.objects.all()
@@ -40,16 +55,19 @@ def index(request):
         'errors_link': errors_link,
         'files': files,
         'form_file': form_file,
+        'delete_form': delete_form,
     }
 
     return render(request, 'main_window/index.html', data)
 
 
-def delete_data(request, id_crated_user):
-    user_links = Links.objects.get(id=id_crated_user)
-    files = UserFiles.objects.get(id=id_crated_user)
-    user_links.object.delete()
-    files.object.delete()
+def delete_data(request, type_del_data, id_del_data):
+    if type_del_data == 'file':
+        files = UserFiles.objects.get(id=id_del_data)
+        files.delete()
+    else:
+        user_links = Links.objects.get(id=id_del_data)
+        user_links.delete()
 
     return render(request, 'main_window/index.html')
 

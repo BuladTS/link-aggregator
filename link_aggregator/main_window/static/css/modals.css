@@ -285,3 +285,7 @@ button::-moz-focus-inner,
 .show > .btn-danger.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(225, 83, 97, 0.5);
 }
+
+.marker_for_delete {
+  color: blue;
+}
