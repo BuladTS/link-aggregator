@@ -36,6 +36,7 @@ class Links(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=True)
     id_crated_user = models.CharField('ID создавшего пользователя', max_length=1000, default=1)
+    dirs = models.JSONField('ID директорий, где есть ссылка', default={"id_dirs": [0]})
 
     def __str__(self):
         return self.tags
@@ -52,6 +53,7 @@ class UserFiles(models.Model):
     tags = models.CharField('Теги', max_length=250)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
     id_crated_user = models.CharField('ID создавшего пользователя', max_length=1000, default=1)
+    dirs = models.JSONField('ID директорий, где есть файл', default={"id_dirs": [0]})
 
     def __str__(self):
         return self.tags
@@ -60,3 +62,15 @@ class UserFiles(models.Model):
         verbose_name = 'Файл'
         verbose_name_plural = 'Файлы'
         ordering = ['-created_at']
+
+
+class UserDirs(models.Model):
+    name = models.CharField(max_length=20)
+    parent = models.IntegerField()
+    children = models.JSONField('Потомки')
+    id_crated_user = models.CharField('ID создавшего пользователя', max_length=1000, default=1)
+
+    def __str__(self):
+        return self.name
+
+

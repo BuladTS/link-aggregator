@@ -10,10 +10,10 @@ const allTagsFiles = document.querySelectorAll('[data-content-tag-files]');
 
 const tableFileNames = document.querySelectorAll('[data-cut-end]')
 
-if (allDescriptionsFiles === null) {
-    allDescriptions[0].classList.toggle('hidden');
+if (allDescriptionsFiles.length === 0) {
+    allDescriptions[0].classList.remove('hidden');
 } else {
-    allDescriptionsFiles[0].classList.toggle('hidden');
+    allDescriptionsFiles[0].classList.remove('hidden');
 }
 
 
@@ -119,13 +119,13 @@ tableFiles.forEach(function (item) {
 
 tableFileNames.forEach(function (item) {
     let string = item.textContent;
-    string = string.split('.')[0];
-    item.textContent = string;
+    const lastIndex = string.lastIndexOf('.');
+    item.textContent = string.slice(0, lastIndex);
 })
 
 
 allType.forEach(function (item) {
     let string = item.textContent;
-    string = string.split('.')[1];
-    item.textContent = '.' + string;
+   const lastIndex = string.lastIndexOf('.');
+    item.textContent = string.slice(lastIndex);
 })

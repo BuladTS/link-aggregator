@@ -2,7 +2,7 @@ from pyexpat import model
 
 from scipy.optimize._tstutils import description
 
-from .models import Links, UserFiles
+from .models import Links, UserFiles, UserDirs
 from django.forms import ModelForm, TextInput, PasswordInput, Textarea, FileInput
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -106,3 +106,28 @@ class UserFilesForm(ModelForm):
 class DeleteForm(forms.Form):
     type = forms.CharField(max_length=10,)
     id = forms.CharField()
+
+
+class DirForm(ModelForm):
+    class Meta:
+        model = UserDirs
+        fields = ['name', 'parent', 'id_crated_user']
+
+        widgets = {
+            "name": TextInput(attrs={
+                'class': 'form-control',
+            }),
+            "parent": TextInput(attrs={
+                'class': 'form-control hidden',
+                'type': 'number'
+            }),
+            "id_crated_user": TextInput(attrs={
+                'class': 'hidden',
+                'id': 'id_user_dir',
+            }),
+            "dates": TextInput(attrs={
+
+            })
+        }
+    dates = forms.JSONField()
+

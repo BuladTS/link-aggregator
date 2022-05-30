@@ -4,13 +4,11 @@ const allLinks = document.querySelectorAll('[data-link]');
 
 const initialDirectories = document.querySelectorAll('.label');
 
-
+console.log(allFiles);
 dropButtons.forEach(function (item) {
     item.addEventListener('click', function () {
         const dropSpanId = this.getAttribute('data-id');
-        console.log(dropSpanId);
         const dropSpan = document.querySelector('#' + dropSpanId);
-        console.log(dropSpan);
         dropSpan.classList.toggle('drop-flag');
         const dropContents = document.querySelectorAll('[data-dad]');
         dropContents.forEach(function (item) {
@@ -18,7 +16,6 @@ dropButtons.forEach(function (item) {
                 item.classList.toggle('hidden');
             }
         })
-        console.log(dropContents);
     })
 })
 
@@ -34,13 +31,13 @@ function hiddenAll() {
 
 function showFiles() {
     allFiles.forEach(function (item) {
-        item.classList.toggle('hidden');
+        item.classList.remove('hidden');
     })
 }
 
 function showLinks () {
     allLinks.forEach(function (item) {
-        item.classList.toggle('hidden');
+        item.classList.remove('hidden');
     })
 }
 
@@ -57,11 +54,13 @@ initialDirectories.forEach(function (item) {
         else if (typeDate === 'links') {
             showLinks();
         }
-        else {
+        else if (typeDate === 'files') {
             showFiles();
+        } else {
+            showFiles();
+            showLinks();
         }
 
     })
 })
 
-console.log(dropButtons);

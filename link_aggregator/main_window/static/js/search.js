@@ -2,7 +2,6 @@ const searchLine = document.querySelector('[data-search]');
 const filesAll = document.querySelectorAll('[data-files]');
 const linksAll = document.querySelectorAll('[data-links]');
 
-console.log(linksAll);
 
 
 function hiddenAll() {
@@ -24,7 +23,6 @@ function showAll() {
 }
 
 searchLine.addEventListener('input', function () {
-    console.log(searchLine.value);
     let searchString = searchLine.value;
     if (searchString === '') {
         showAll();

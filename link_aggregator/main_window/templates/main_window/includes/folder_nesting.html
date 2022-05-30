@@ -1,0 +1,24 @@
+{% if dir.children|length <= 1 %}
+    <p class="label" data-id-dirs="{{ dir.id }}" >{{ dir.name }}</p>
+{% else %}
+    <li>
+        <span data-id-dirs="{{ dir.id }}">
+            <img class="icon_drop" id="span-{{ dir.id }}"  data-drop data-id="span-{{ dir.id }}" src='../../../static/img/triangle.svg'>
+            <span data-drop data-id="span-{{ dir.id }}">{{ dir.name }}</span>
+        </span>
+
+    </li>
+    {% for el in dir.children %}
+    {% if el != 0 %}
+    <li>
+        <ul class="folder hidden" data-dad="span-{{ dir.id }}">
+            {% for i in dirs %}
+                {% if i.id == el %}
+                    {% include 'main_window/includes/folder_nesting.html' with dir=i%}
+                {% endif %}
+            {% endfor %}
+    </ul>
+    </li>
+    {% endif %}
+    {% endfor %}
+{% endif %}

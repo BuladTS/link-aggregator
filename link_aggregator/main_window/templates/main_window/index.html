@@ -26,6 +26,7 @@
                   <button class="add_btn" id="add_link_btn" data-modal-button="modal-1">Добавить ссылку</button>
                   <button class="add_btn" id="add_file_btn" data-modal-button="modal-2">Добавить файл</button>
                   <button class="add_btn" id="info" data-modal-button="modal-3">Удаление записей</button>
+                  <button class="add_btn" id="add_dir" data-modal-button="modal-4">Добавить папку</button>
                   {% endif %}
               </div>
           </div>
@@ -38,6 +39,7 @@
           </div>
       </nav>
   </header>
+
   <div class="wrapper">
       <main class="main">
           <div class="container">
@@ -57,37 +59,36 @@
                               <li>
                                   <p class="label" data-type="files">Файлы</p>
                               </li>
-                              <li>
-                                  <span>
-                                      <img class="icon_drop" id="span-1" data-drop data-id="span-1" src="{% static 'img/triangle.svg' %}">
-                                      <span data-drop data-id="span-1">Папка 1</span>
-                                  </span>
+                              {% for el in dirs %}
+                                {% if el.parent == 0 %}
+                                    {% if el.children|length <= 1 %}
+                                       <li>
+                                           <p class="label" href="" data-id-dirs="{{ el.id }}">{{ el.name }}</p>
+                                       </li>
+                                    {% else %}
+                                        <li>
+                                            <span data-id-dirs="{{ el.id }}" >
+                                                <img class="icon_drop" id="span-{{ el.id }}"  data-drop data-id="span-{{ el.id }}" src="{% static 'img/triangle.svg' %}">
+                                                <span data-drop data-id="span-{{ el.id }}">{{ el.name }}</span>
+                                            </span>
 
-                              </li>
-                              <li>
-
-                              </li>
-                              <li>
-                                  <ul class="folder hidden" data-dad="span-1">
-                                      <li>
-                                          <img class="icon_drop" id="span-2"  data-drop data-id="span-2" src="{% static 'img/triangle.svg' %}">
-                                          <span data-drop data-id="span-2">Папка 2</span>
-                                      </li>
-                                      <li>
-                                          <ul class="folder hidden" data-dad="span-2">
-                                              <li>
-                                                  <a href="#">Папка 4</a>
-                                              </li>
-                                              <li>
-                                                  <a href="#">Папка 5</a>
-                                              </li>
-                                          </ul>
-                                      </li>
-                                      <li>
-                                          <a href="#">Папка 3</a>
-                                      </li>
-                                  </ul>
-                              </li>
+                                        </li>
+                                        {% for i in el.children %}
+                                        {% if i != 0 %}
+                                        <li>
+                                            <ul class="folder hidden" data-dad="span-{{ el.id }}">
+                                                {% for j in dirs %}
+                                                    {% if j.id == i %}
+                                                        {% include 'main_window/includes/folder_nesting.html' with dir=j %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+                              {% endfor %}
                           </ul>
                       </div>
                   </div>
@@ -133,14 +134,14 @@
                           </thead>
                           <tbody>
                             {% for el in files%}
-                            <tr data-files data-file="{{ el.id }}">
+                            <tr data-files data-file="{{ el.id }}" data-dirs="{{ el.dirs.id_dirs }}">
                                 <td data-cut-end>{{ el.file|cut:"uploads/" }}</td>
                                 <td class="link">{{ el.file|cut:"uploads/"|capfirst }}</td>
                                 <td>{{ el.created_at }}</td>
                             </tr>
                             {% endfor %}
                             {% for el in user_links %}
-                            <tr data-links data-link="{{ el.id }}">
+                            <tr data-links data-link="{{ el.id }}" data-dirs="{{ el.dirs.id_dirs }}">
                                 <td>{{ el.link }}</td>
                                 <td>Ссылка</td>
                                 <td>{{el.created_at}}</td>
@@ -212,8 +213,6 @@
   <div class="fade-block hidden" id="modal-3" data-modal>
       <div class="modal-window">
           <div class="card">
-              <div class="card-header">
-              </div>
               <div class="list-group">
                   <button type="button" class="list-group-item list-group-item-action active" aria-current="true">
                       Удаление записей
@@ -252,11 +251,84 @@
           </div>
       </div>
   </div>
+  <div class="fade-block hidden" id="modal-4" data-modal>
+      <div class="modal-window">
+          <div class="card">
+              <div class="card-header">
+                  Добавить папку
+              </div>
+              <div class="card-body">
+                  <span class="border">
+                      Выберите папку
+                  </span>
+                  <ul class="folder border border-primary border-scroll">
+                      <li>
+                          <p class="" data-id-dir="0" >Изначальная директория</p>
+                      </li>
+                      {% for el in dirs %}
+                      <li>
+                          <p class="" data-id-dir="{{ el.id }}">{{ el.name }}</p>
+                      </li>
+                      {% endfor %}
+                  </ul>
+                  <span class="border">
+                      Выберите содержимое папки
+                  </span>
+                  <div class="border border-primary" >
+                      <div class="scroll-table">
+                      <table>
+                          <thead>
+                            <tr>
+                                <th class="title-modal">Название</th>
+                                <th class="type-modal">Тип</th>
+                                <th>Дата</th>
+                            </tr>
+                          </thead>
+                   </table>
+                  </div>
+                   <div class="scroll-table-body">
+                       <table>
+                           <tbody>
+                            {% for el in files%}
+                            <tr data-add-dir-file data-file="{{ el.id }}">
+                                <td data-cut-end>{{ el.file|cut:"uploads/" }}</td>
+                                <td class="link">{{ el.file|cut:"uploads/"|capfirst }}</td>
+                                <td>{{ el.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% for el in user_links %}
+                            <tr data-add-dir-link data-link="{{ el.id }}">
+                                <td>{{ el.link }}</td>
+                                <td>Ссылка</td>
+                                <td>{{el.created_at}}</td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                       </table>
+                   </div>
+                  </div>
+                  <span class="border">Введите название папки</span>
+                  <form action="" method="post">
+                      {% csrf_token %}
+                      {{ form_add_dir.name }}
+                      {{ form_add_dir.parent }}
+                      {{ form_add_dir.id_crated_user }}
+                      {{ form_add_dir.dates }}
+                      <button type="submit" class="link_add btn btn-dark">Добавить папку</button>
+                  </form>
+
+                  <button class="btn btn-dark" data-modal-close type="button">Закрыть окно</button>
+              </div>
+          </div>
+      </div>
+  </div>
   <script type="text/javascript" src="{% static 'js/file_dispatcher.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/table_links.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/popup_add_link.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/get_user_id.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/search.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/delete.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/add_dir.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/show_dir.js' %}"></script>
 </body>
 </html>
