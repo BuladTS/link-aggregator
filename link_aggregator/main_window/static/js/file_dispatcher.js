@@ -4,7 +4,6 @@ const allLinks = document.querySelectorAll('[data-link]');
 
 const initialDirectories = document.querySelectorAll('.label');
 
-console.log(allFiles);
 dropButtons.forEach(function (item) {
     item.addEventListener('click', function () {
         const dropSpanId = this.getAttribute('data-id');

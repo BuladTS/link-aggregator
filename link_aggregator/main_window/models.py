@@ -67,7 +67,7 @@ class UserFiles(models.Model):
 class UserDirs(models.Model):
     name = models.CharField(max_length=20)
     parent = models.IntegerField()
-    children = models.JSONField('Потомки')
+    children = models.JSONField('Потомки', default=[0])
     id_crated_user = models.CharField('ID создавшего пользователя', max_length=1000, default=1)
 
     def __str__(self):

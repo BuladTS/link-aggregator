@@ -12,11 +12,16 @@ const tableFileNames = document.querySelectorAll('[data-cut-end]')
 
 const downloadFile = document.querySelector('#download');
 
+const shares = document.querySelectorAll('[data-share]')
+const blockShare = document.querySelector('.social-contact');
+
 if (allDescriptionsFiles.length === 0) {
     allDescriptions[0].classList.remove('hidden');
 } else {
     allDescriptionsFiles[0].classList.remove('hidden');
 }
+
+blockShare.classList.add('hidden');
 
 console.log(downloadFile)
 
@@ -67,7 +72,7 @@ buttons.forEach(function (item, i) {
 
     })
 })
-
+console.log('1124');
 tableLinks.forEach(function (item) {
     item.addEventListener('click', function () {
         if (buttons[0].classList.contains('pressed_button')) {
@@ -90,6 +95,13 @@ tableLinks.forEach(function (item) {
             })
             tag.classList.toggle('hidden');
         }
+        blockShare.classList.remove('hidden');
+        shares.forEach(function (i) {
+            const link = item.querySelector('td').querySelector('span').textContent
+            let href = i.getAttribute('href');
+            href = href.slice(0, href.indexOf('=') + 1);
+            i.setAttribute("href", href + link);
+        })
         downloadFile.classList.add('hidden');
     })
 })
@@ -117,7 +129,7 @@ tableFiles.forEach(function (item) {
             })
             tag.classList.toggle('hidden');
         }
-
+        blockShare.classList.add('hidden');
         downloadFile.classList.remove('hidden');
         downloadFile.setAttribute("href", item.dataset.name);
     })

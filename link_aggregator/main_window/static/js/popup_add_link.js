@@ -2,9 +2,15 @@ const modalButtons = document.querySelectorAll('[data-modal-button]');
 const modalClosebuttons = document.querySelectorAll('[data-modal-close]');
 const allModals = document.querySelectorAll('[data-modal]');
 
+function closeAllModals() {
+    allModals.forEach(function (item) {
+        item.classList.add('hidden');
+    })
+}
 
 modalButtons.forEach(function (item) {
     item.addEventListener('click', function () {
+        closeAllModals();
         const modalId = this.dataset.modalButton;
         const modal = document.querySelector('#' + modalId);
         modal.classList.remove('hidden');

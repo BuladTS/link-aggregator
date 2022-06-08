@@ -131,3 +131,6 @@ class DirForm(ModelForm):
         }
     dates = forms.JSONField()
 
+
+class DeleteDirForm(forms.Form):
+    dirs = forms.JSONField()

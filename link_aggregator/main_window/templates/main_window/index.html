@@ -27,6 +27,7 @@
                   <button class="add_btn" id="add_file_btn" data-modal-button="modal-2">Добавить файл</button>
                   <button class="add_btn" id="info" data-modal-button="modal-3">Удаление записей</button>
                   <button class="add_btn" id="add_dir" data-modal-button="modal-4">Добавить папку</button>
+                  <button class="add_btn" id="del_dir" data-modal-button="modal-5">Удалить папку</button>
                   {% endif %}
               </div>
           </div>
@@ -95,7 +96,7 @@
               </div>
               <div class="column_right">
                   <div class="header_right_column">
-                      <button class="content pressed_button" data-pressed-button>Содержание</button>
+                      <button class="content pressed_button" data-pressed-button>Описание</button>
                       <button class="tags" data-pressed-button>Теги</button>
                   </div>
                   <div class="window-container">
@@ -115,7 +116,13 @@
                       </div>
                   </div>
                   <div class="footer">
-                      <a id="download" href="../uploads/first.c" download="first.c" ><img src="{% static 'img/download.svg' %}" alt=""></a>
+                      <div class="social-contact">
+                          <span href="" id="shown" style="background-color: red;"><i class="fa fa-share"></i>Поделиться  </span>
+                          <a data-share href="http://vk.com/share.php?url=https://github.com/BuladTS/link-aggregator/tree/develop" style="background-color: blue;"><i class="vkontakte-link"><i class="fa fa-twitter"></i></i> Vkontakte </a>
+                          <a data-share href="https://plus.google.com/share?url=http://127.0.0.1:8000{{ request.get_absolute_url }}" style="background-color: blue;"><i class="google-link"><i class="google-plus"></i></i> Google </a>
+                          <a data-share href="https://telegram.me/share/url?url=http://127.0.0.1:8000{{ request.get_absolute_url }}" style="background-color: blue;"><i class="telegram-link"><i class="telegram"></i></i> Telegram </a>
+                      </div>
+                       <a id="download" href="MEDIA_ROOT/uploads/first.c" download="first.c" ><img src="{% static 'img/download.svg' %}" alt=""></a>
                   </div>
               </div>
               <div class="middle">
@@ -317,7 +324,31 @@
                       {{ form_add_dir.dates }}
                       <button type="submit" class="link_add btn btn-dark">Добавить папку</button>
                   </form>
-
+                  <button class="btn btn-dark" data-modal-close type="button">Закрыть окно</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="fade-block hidden" id="modal-5" data-modal>
+      <div class="modal-window">
+          <div class="card">
+              <div class="card-header">
+                  Удалить папку
+              </div>
+              <div class="card-body">
+                  <span class="border">Выберите папки для удаления</span>
+                  <ul class="folder border border-primary border-scroll">
+                      {% for el in dirs %}
+                      <li>
+                          <p class="" data-id-dir_del="{{ el.id }}">{{ el.name }}</p>
+                      </li>
+                      {% endfor %}
+                  </ul>
+                  <form action="" method="post">
+                      {% csrf_token %}
+                      {{ form_del_dir.dirs }}
+                      <button type="submit" class="link_add btn btn-dark">Удалить папку</button>
+                  </form>
                   <button class="btn btn-dark" data-modal-close type="button">Закрыть окно</button>
               </div>
           </div>
@@ -331,6 +362,7 @@
   <script type="text/javascript" src="{% static 'js/delete.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/add_dir.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/show_dir.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/delete_dirs.js' %}"></script>
   <script src="https://yastatic.net/share2/share.js" async></script>
 </body>
 </html>

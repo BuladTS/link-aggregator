@@ -1,6 +1,7 @@
+import dirs as dirs
 from django.shortcuts import render, redirect
 from .models import User_data, Links, UserFiles, UserDirs
-from .forms import LinksForm, UserFilesForm, DeleteForm, DirForm
+from .forms import LinksForm, UserFilesForm, DeleteForm, DirForm, DeleteDirForm
 from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import UsersRegisterForm, UserLoginForm
@@ -38,11 +39,18 @@ def index(request):
         if form.is_valid():
             add_directory(request, form)
 
+    if request.method == 'POST':
+        form = DeleteDirForm(request.POST)
+        if form.is_valid():
+            delete_dirs(request, form)
+
     user = request.user
     delete_form = DeleteForm
     form = LinksForm
     form_file = UserFilesForm
     form_add_dir = DirForm
+    form_del_dir = DeleteDirForm
+
     user_data = User_data.objects.all()
     user_links = Links.objects.filter(id_crated_user=user.id)
     files = UserFiles.objects.filter(id_crated_user=user.id)
@@ -58,9 +66,34 @@ def index(request):
         'delete_form': delete_form,
         'dirs': dirs,
         'form_add_dir': form_add_dir,
+        'form_del_dir': form_del_dir,
     }
 
     return render(request, 'main_window/index.html', data)
+
+
+def delete_dirs(request, form):
+    data = form.cleaned_data['dirs']
+    for i in data:
+        deleted_dir = UserDirs.objects.get(id=i)
+        parent = deleted_dir.parent
+        children = deleted_dir.children
+        parent_dir = UserDirs.objects.get(id=parent)
+        for j in children:
+            if j != 0:
+                children_dir = UserDirs.objects.get(id=j)
+                print(children_dir.parent)
+                children_dir.parent = parent
+                children_dir.save(update_fields=["parent"])
+                parent_dir.children.append(j)
+        parent_dir.children.remove(i)
+        parent_dir.save(update_fields=["children"])
+        saved_files = UserFiles.objects.all()
+        for j in saved_files:
+            if i in j.dirs["id_dirs"]:
+                j.dirs["id_dirs"].remove(i)
+                j.save(update_fields=["dirs"])
+        deleted_dir.delete()
 
 
 def add_directory(request, form):

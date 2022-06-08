@@ -296,6 +296,7 @@ button::-moz-focus-inner,
 }
 
 .border-scroll {
+  width: 600px;
   max-height: 90px;
   overflow-x: hidden;
 }
