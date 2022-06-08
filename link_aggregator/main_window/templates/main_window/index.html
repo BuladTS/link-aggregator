@@ -115,11 +115,7 @@
                       </div>
                   </div>
                   <div class="footer">
-                      <div class="search">
-                          <form action="#">
-                            <input type="text" placeholder="Поиск">
-                          </form>
-                      </div>
+                      <a id="download" href="../uploads/first.c" download="first.c" ><img src="{% static 'img/download.svg' %}" alt=""></a>
                   </div>
               </div>
               <div class="middle">
@@ -134,21 +130,24 @@
                           </thead>
                           <tbody>
                             {% for el in files%}
-                            <tr data-files data-file="{{ el.id }}" data-dirs="{{ el.dirs.id_dirs }}">
+                            <tr data-files data-file="{{ el.id }}" data-dirs="{{ el.dirs.id_dirs }}" data-name="{{ el.file }}">
                                 <td data-cut-end>{{ el.file|cut:"uploads/" }}</td>
                                 <td class="link">{{ el.file|cut:"uploads/"|capfirst }}</td>
                                 <td>{{ el.created_at }}</td>
                             </tr>
                             {% endfor %}
                             {% for el in user_links %}
-                            <tr data-links data-link="{{ el.id }}" data-dirs="{{ el.dirs.id_dirs }}">
-                                <td>{{ el.link }}</td>
+                            <tr data-links data-link="{{ el.id }}" data-dirs="{{ el.dirs.id_dirs }}" style=" vertical-align:middle;">
+                                <td>
+                                    <span>{{ el.link }}</span>
+                                </td>
                                 <td>Ссылка</td>
                                 <td>{{el.created_at}}</td>
                             </tr>
                             {% endfor %}
                           </tbody>
                       </table>
+                  <!--<div class="ya-share2" data-services="vkontakte,twitter,facebook,messenger" data-copy></div>-->
                   {% else %}
                     <p class="user_have_not_file">Здесь пока ничего :(</p>
                   {% endif %}
@@ -236,9 +235,11 @@
                               {% endfor %}
                               </tbody>
                           </table>
+
                           {% else %}
                           <p class="user_have_not_file">Здесь пока ничего</p>
                           {% endif %}
+
                       </div>
                       <form data-del-form action="" method="post">
                           {% csrf_token %}
@@ -330,5 +331,6 @@
   <script type="text/javascript" src="{% static 'js/delete.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/add_dir.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/show_dir.js' %}"></script>
+  <script src="https://yastatic.net/share2/share.js" async></script>
 </body>
 </html>

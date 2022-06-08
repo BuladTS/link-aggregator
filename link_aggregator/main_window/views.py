@@ -30,16 +30,8 @@ def index(request):
     if request.method == 'POST':
         form = DeleteForm(request.POST)
         if form.is_valid():
-            value_type = str(form['type'])
-            value_type = value_type[38:42]
-            value_id = str(form['id'])
-            value_id = value_id[36:len(value_id)]
-            i = 0
-            value_id_new = ''
-            while value_id[i].isdigit():
-                value_id_new += value_id[i]
-                i += 1
-            delete_data(request, value_type, int(value_id_new))
+            data = form.cleaned_data
+            delete_data(request, data['type'], int(data['id']))
 
     if request.method == 'POST':
         form = DirForm(request.POST)

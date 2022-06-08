@@ -376,3 +376,8 @@ select.form-control:focus::-ms-value {
     right: 75px;
     width: 260px;
 }
+
+.copy_icon {
+    position:absolute;
+    right: 330px;
+}

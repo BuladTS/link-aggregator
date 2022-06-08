@@ -10,12 +10,15 @@ const allTagsFiles = document.querySelectorAll('[data-content-tag-files]');
 
 const tableFileNames = document.querySelectorAll('[data-cut-end]')
 
+const downloadFile = document.querySelector('#download');
+
 if (allDescriptionsFiles.length === 0) {
     allDescriptions[0].classList.remove('hidden');
 } else {
     allDescriptionsFiles[0].classList.remove('hidden');
 }
 
+console.log(downloadFile)
 
 buttons.forEach(function (item, i) {
     item.addEventListener('click', function () {
@@ -87,6 +90,7 @@ tableLinks.forEach(function (item) {
             })
             tag.classList.toggle('hidden');
         }
+        downloadFile.classList.add('hidden');
     })
 })
 
@@ -113,6 +117,9 @@ tableFiles.forEach(function (item) {
             })
             tag.classList.toggle('hidden');
         }
+
+        downloadFile.classList.remove('hidden');
+        downloadFile.setAttribute("href", item.dataset.name);
     })
 })
 
