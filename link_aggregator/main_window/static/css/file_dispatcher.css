@@ -1,0 +1,25 @@
+.drop-flag {
+     transform: rotate(90deg);
+}
+
+.icon_drop {
+     padding-bottom: 1px;
+}
+
+.label {
+     padding-left: 11px;
+}
+
+ul {
+     list-style-type: none;
+}
+
+a {
+     text-decoration: none;
+     color: #fff;
+     padding-left: 13px;
+}
+
+li {
+     cursor: pointer;
+}

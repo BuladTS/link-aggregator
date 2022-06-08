@@ -1,0 +1,368 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<!--    <link rel="stylesheet" href="{% static 'libs/bootstrap.css' %}">-->
+    <link rel="stylesheet" href="{% static 'css/modals.css' %}">
+    <link rel="stylesheet" href="{% static 'css/file_dispatcher.css' %}">
+    <script src="https://yastatic.net/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+  <header class="header">
+      <nav class="menu">
+          <img class="lines" src="{% static 'img/Vector.svg' %}" alt="">
+          <div class="search" id="search">
+              <form action="#">
+                  <input data-search type="text" placeholder="Поиск">
+              </form>
+          </div>
+          <div class="dropdown">
+              {% if request.user.is_authenticated %}
+              <button class="drop_btn"><img class="user_step" src="{% static 'img/Plus.svg' %}" alt=""></button>
+              <div class="dropdown-content">
+                  <button class="add_btn" id="add_link_btn" data-modal-button="modal-1">Добавить ссылку</button>
+                  <button class="add_btn" id="add_file_btn" data-modal-button="modal-2">Добавить файл</button>
+                  <button class="add_btn" id="info" data-modal-button="modal-3">Удаление записей</button>
+                  <button class="add_btn" id="add_dir" data-modal-button="modal-4">Добавить папку</button>
+                  <button class="add_btn" id="del_dir" data-modal-button="modal-5">Удалить папку</button>
+                  {% endif %}
+              </div>
+          </div>
+          <div class="exit_text">
+              {% if request.user.is_authenticated %}
+              <span class="greeting"> {{ user.username }} </span> <a href="{%url 'logout'%}">Выход</a>
+              {% else %}
+              <a class="exit" href="{% url 'authorization' %}" >Вход</a>  <a href="{% url 'registrations' %}">Регистрация</a>
+              {% endif %}
+          </div>
+      </nav>
+  </header>
+
+  <div class="wrapper">
+      <main class="main">
+          <div class="container">
+              <div class="column_left">
+                  <div class="header_left_column">
+                          <p>Ваши файлы</p>
+                  </div>
+                  <div class="base__files">
+                      <div class="block_with_content">
+                          <ul class="folder">
+                              <li>
+                                  <p class="label" data-type="all">Все данные</p>
+                              </li>
+                              <li>
+                                  <p class="label" data-type="links">Ссылки</p>
+                              </li>
+                              <li>
+                                  <p class="label" data-type="files">Файлы</p>
+                              </li>
+                              {% for el in dirs %}
+                                {% if el.parent == 0 %}
+                                    {% if el.children|length <= 1 %}
+                                       <li>
+                                           <p class="label" href="" data-id-dirs="{{ el.id }}">{{ el.name }}</p>
+                                       </li>
+                                    {% else %}
+                                        <li>
+                                            <span data-id-dirs="{{ el.id }}" >
+                                                <img class="icon_drop" id="span-{{ el.id }}"  data-drop data-id="span-{{ el.id }}" src="{% static 'img/triangle.svg' %}">
+                                                <span data-drop data-id="span-{{ el.id }}">{{ el.name }}</span>
+                                            </span>
+
+                                        </li>
+                                        {% for i in el.children %}
+                                        {% if i != 0 %}
+                                        <li>
+                                            <ul class="folder hidden" data-dad="span-{{ el.id }}">
+                                                {% for j in dirs %}
+                                                    {% if j.id == i %}
+                                                        {% include 'main_window/includes/folder_nesting.html' with dir=j %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% endif %}
+                                {% endif %}
+                              {% endfor %}
+                          </ul>
+                      </div>
+                  </div>
+              </div>
+              <div class="column_right">
+                  <div class="header_right_column">
+                      <button class="content pressed_button" data-pressed-button>Описание</button>
+                      <button class="tags" data-pressed-button>Теги</button>
+                  </div>
+                  <div class="window-container">
+                      <div class="window-content">
+                          {% for el in user_links %}
+                          <p class="description hidden" id="description-{{ el.id }}" data-tag="tag-{{ el.id }}" data-content-description >{{ el.description }}</p>
+                          {% endfor %}
+                          {% for el in user_links %}
+                          <p class="tag hidden" id="tag-{{ el.id }}" data-description="description-{{ el.id }}" data-content-tag >{{ el.tags }}</p>
+                          {% endfor %}
+                          {% for el in files %}
+                          <p class="tag hidden" id="tag_files-{{ el.id }}" data-description="description_files-{{ el.id }}" data-content-tag-files >{{ el.tags }}</p>
+                          {% endfor %}
+                          {% for el in files %}
+                          <p class="description hidden" id="description_files-{{ el.id }}" data-tag="tag_files-{{ el.id }}" data-content-description-files >{{ el.description }}</p>
+                          {% endfor %}
+                      </div>
+                  </div>
+                  <div class="footer">
+                      <div class="social-contact">
+                          <span href="" id="shown" style="background-color: red;"><i class="fa fa-share"></i>Поделиться  </span>
+                          <a data-share href="http://vk.com/share.php?url=https://github.com/BuladTS/link-aggregator/tree/develop" style="background-color: blue;"><i class="vkontakte-link"><i class="fa fa-twitter"></i></i> Vkontakte </a>
+                          <a data-share href="https://plus.google.com/share?url=http://127.0.0.1:8000{{ request.get_absolute_url }}" style="background-color: blue;"><i class="google-link"><i class="google-plus"></i></i> Google </a>
+                          <a data-share href="https://telegram.me/share/url?url=http://127.0.0.1:8000{{ request.get_absolute_url }}" style="background-color: blue;"><i class="telegram-link"><i class="telegram"></i></i> Telegram </a>
+                      </div>
+                       <a id="download" href="MEDIA_ROOT/uploads/first.c" download="first.c" ><img src="{% static 'img/download.svg' %}" alt=""></a>
+                  </div>
+              </div>
+              <div class="middle">
+                  {% if user_links or files %}
+                      <table>
+                          <thead>
+                            <tr>
+                                <th class="title">Название</th>
+                                <th class="type">Тип</th>
+                                <th>Дата</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for el in files%}
+                            <tr data-files data-file="{{ el.id }}" data-dirs="{{ el.dirs.id_dirs }}" data-name="{{ el.file }}">
+                                <td data-cut-end>{{ el.file|cut:"uploads/" }}</td>
+                                <td class="link">{{ el.file|cut:"uploads/"|capfirst }}</td>
+                                <td>{{ el.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% for el in user_links %}
+                            <tr data-links data-link="{{ el.id }}" data-dirs="{{ el.dirs.id_dirs }}" style=" vertical-align:middle;">
+                                <td>
+                                    <span>{{ el.link }}</span>
+                                </td>
+                                <td>Ссылка</td>
+                                <td>{{el.created_at}}</td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                      </table>
+                  <!--<div class="ya-share2" data-services="vkontakte,twitter,facebook,messenger" data-copy></div>-->
+                  {% else %}
+                    <p class="user_have_not_file">Здесь пока ничего :(</p>
+                  {% endif %}
+              </div>
+          </div>
+      </main>
+  </div>
+  <div id="modal-1" data-modal class="fade-block hidden">
+      <div class="modal-window">
+          <div class="card">
+              <div class="card-header">
+                  Добавить ссылку
+              </div>
+              <div class="card-body">
+                  <form method="post" action="#" data-id-user-link="{{ user.id }}">
+                    {% csrf_token %}
+                    {{ form.link }}<br>
+                    {{ form.description }}<br>
+                    {{ form.tags }}<br>
+                    {{ form.id_crated_user}}<br>
+                    <button class="link_add btn btn-dark" type="submit" name="link_add" value="Link_add">Save</button>
+                </form>
+                  {% if errors %}
+                  <p>{{ errors_link }}</p>
+                  {% endif %}
+                  <button
+                          data-modal-close
+                          type="button"
+                          class="btn btn-dark"
+                        >
+                      Закрыть окно
+                  </button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="fade-block hidden" id="modal-2" data-modal>
+      <div class="modal-window">
+          <div class="card">
+              <div class="card-header">
+                  Добавить файл
+              </div>
+              <div class="card-body">
+                  <form method="post" enctype="multipart/form-data" data-id-user-file="{{ user.id }}">
+                      {% csrf_token %}
+                      <div class="mb-3">
+                          {{ form_file.file }}
+                      </div>
+                      {{ form_file.description }}<br>
+                      {{ form_file.tags }}<br>
+                      {{ form_file.id_crated_user}}<br>
+                      <button class="link_add btn btn-dark" type="submit">Save</button>
+                  </form>
+                  {% if errors %}
+                  <p>{{ errors_file }}</p>
+                  {% endif %}
+                  <button class="btn btn-dark" data-modal-close type="button">Закрыть окно</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="fade-block hidden" id="modal-3" data-modal>
+      <div class="modal-window">
+          <div class="card">
+              <div class="list-group">
+                  <button type="button" class="list-group-item list-group-item-action active" aria-current="true">
+                      Удаление записей
+                      <div class="mb-3">
+                          {% if user_links or files %}
+                          <table>
+                              <tbody>
+                              {% for el in files%}
+                              <tr data-del-file data-file="{{ el.id }}">
+                                  <td>{{ el.file|cut:"uploads/" }}</td>
+                                    <td class="link">{{ el.file|cut:"uploads/"|capfirst }}</td>
+                                    <td>{{ el.created_at }}</td>
+                              </tr>
+                                {% endfor %}
+                                {% for el in user_links %}
+                                <tr data-del-link data-link="{{ el.id }}">
+                                    <td>{{ el.link }}</td>
+                                    <td>Ссылка</td>
+                                    <td>{{el.created_at}}</td>
+                                </tr>
+                              {% endfor %}
+                              </tbody>
+                          </table>
+
+                          {% else %}
+                          <p class="user_have_not_file">Здесь пока ничего</p>
+                          {% endif %}
+
+                      </div>
+                      <form data-del-form action="" method="post">
+                          {% csrf_token %}
+                          {{ delete_form.type }}
+                          {{ delete_form.id }}
+                          <button type="submit" class="btn btn-danger">Удалить запись</button>
+                      </form>
+                  <button class="btn btn-dark" data-modal-close type="button">Закрыть окно</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="fade-block hidden" id="modal-4" data-modal>
+      <div class="modal-window">
+          <div class="card">
+              <div class="card-header">
+                  Добавить папку
+              </div>
+              <div class="card-body">
+                  <span class="border">
+                      Выберите папку
+                  </span>
+                  <ul class="folder border border-primary border-scroll">
+                      <li>
+                          <p class="" data-id-dir="0" >Изначальная директория</p>
+                      </li>
+                      {% for el in dirs %}
+                      <li>
+                          <p class="" data-id-dir="{{ el.id }}">{{ el.name }}</p>
+                      </li>
+                      {% endfor %}
+                  </ul>
+                  <span class="border">
+                      Выберите содержимое папки
+                  </span>
+                  <div class="border border-primary" >
+                      <div class="scroll-table">
+                      <table>
+                          <thead>
+                            <tr>
+                                <th class="title-modal">Название</th>
+                                <th class="type-modal">Тип</th>
+                                <th>Дата</th>
+                            </tr>
+                          </thead>
+                   </table>
+                  </div>
+                   <div class="scroll-table-body">
+                       <table>
+                           <tbody>
+                            {% for el in files%}
+                            <tr data-add-dir-file data-file="{{ el.id }}">
+                                <td data-cut-end>{{ el.file|cut:"uploads/" }}</td>
+                                <td class="link">{{ el.file|cut:"uploads/"|capfirst }}</td>
+                                <td>{{ el.created_at }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% for el in user_links %}
+                            <tr data-add-dir-link data-link="{{ el.id }}">
+                                <td>{{ el.link }}</td>
+                                <td>Ссылка</td>
+                                <td>{{el.created_at}}</td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                       </table>
+                   </div>
+                  </div>
+                  <span class="border">Введите название папки</span>
+                  <form action="" method="post">
+                      {% csrf_token %}
+                      {{ form_add_dir.name }}
+                      {{ form_add_dir.parent }}
+                      {{ form_add_dir.id_crated_user }}
+                      {{ form_add_dir.dates }}
+                      <button type="submit" class="link_add btn btn-dark">Добавить папку</button>
+                  </form>
+                  <button class="btn btn-dark" data-modal-close type="button">Закрыть окно</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <div class="fade-block hidden" id="modal-5" data-modal>
+      <div class="modal-window">
+          <div class="card">
+              <div class="card-header">
+                  Удалить папку
+              </div>
+              <div class="card-body">
+                  <span class="border">Выберите папки для удаления</span>
+                  <ul class="folder border border-primary border-scroll">
+                      {% for el in dirs %}
+                      <li>
+                          <p class="" data-id-dir_del="{{ el.id }}">{{ el.name }}</p>
+                      </li>
+                      {% endfor %}
+                  </ul>
+                  <form action="" method="post">
+                      {% csrf_token %}
+                      {{ form_del_dir.dirs }}
+                      <button type="submit" class="link_add btn btn-dark">Удалить папку</button>
+                  </form>
+                  <button class="btn btn-dark" data-modal-close type="button">Закрыть окно</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <script type="text/javascript" src="{% static 'js/file_dispatcher.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/table_links.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/popup_add_link.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/get_user_id.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/search.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/delete.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/add_dir.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/show_dir.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/delete_dirs.js' %}"></script>
+  <script src="https://yastatic.net/share2/share.js" async></script>
+</body>
+</html>
